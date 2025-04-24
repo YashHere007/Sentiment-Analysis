@@ -59,6 +59,7 @@ try:
     model = model_from_json(model_json, custom_objects={'Attention': Attention})
     model.load_weights(weights_path)
     model.compile(loss='categorical_crossentropy', optimizer=AdamW(learning_rate=0.0003, weight_decay=0.01), metrics=['accuracy'])
+    print("✅ Model loaded successfully")
 except Exception as e:
     print(f"Error loading model: {e}")
     exit(1)
@@ -100,6 +101,10 @@ def predict():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/')
+def index():
+    return "Sentiment Analysis API is running. Use the frontend to interact with the model."
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
